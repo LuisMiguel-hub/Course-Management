@@ -12,8 +12,7 @@ const routes = {
 }
 
 export function router() {
-    let currentPath = window.location.pathname.replace(/\/$/, "");
-    if (currentPath === "") currentPath = "/"
+    let currentPath = window.location.pathname.replace(/\/$/, "") || "/";
     let route = routes[currentPath];
     if(!route) {
         history.replaceState({}, "", "/404");
