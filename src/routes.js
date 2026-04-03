@@ -29,7 +29,7 @@ export function router() {
     let route = routes[currentPath];
 
     if(!route) {
-        history.replaceState({}, "", nase + "404");
+        history.replaceState({}, "", base + "404");
         route = routes["/404"];
         route();
         return
