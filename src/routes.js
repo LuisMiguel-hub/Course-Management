@@ -12,7 +12,10 @@ const routes = {
 }
 
 export function router() {
-    let currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+    const base = import.meta.env.BASE_URL;
+    let currentPath = window.location.pathname
+        .replace(base, "")
+        .replace(/\/$/, "") || "/";
     let route = routes[currentPath];
     if(!route) {
         history.replaceState({}, "", "/404");
