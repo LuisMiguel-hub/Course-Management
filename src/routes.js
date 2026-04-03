@@ -1,4 +1,5 @@
 import { indicatorMove } from "./nav.js";
+
 const routes = {
     "/":  () => mostrar("dashboard"),
     "/dashboard":  () => mostrar("dashboard"),
@@ -13,17 +14,37 @@ const routes = {
 
 export function router() {
     const base = import.meta.env.BASE_URL;
-    let currentPath = window.location.pathname
-        .replace(base, "")
-        .replace(/\/$/, "") || "/";
-    let route = routes[currentPath];
-    if(!route) {
-        history.replaceState({}, "", "/404");
-        route = routes["/404"];
+
+    let currentPath = window.location.pathname;
+
+    if(base !== "/") currentPath = currentPath.replace(base, "");
+
+    currentPath = currentPath.replace(/\/$/, "") || "/";
+
+    if (currentPath === "/") {
+        currentPath = "/dashboard"
+        history.replaceState({}, "", base + "dashboard");
     }
+    
+    let route = routes[currentPath];
+
+    if(!route) {
+        history.replaceState({}, "", nase + "404");
+        route = routes["/404"];
+        route();
+        return
+    }
+
     route();
-    const actualLink = document.querySelector(`.principal-nav-list-a[href='${currentPath === "/" ? "/dashboard" : currentPath}']`)
-    indicatorMove(actualLink);
+
+
+    const href = currentPath === "/" ? "/dashboard" : currentPath;
+
+    const actualLink = document.querySelector(`.principal-nav-list-a[href='${href}']`);
+
+    if(actualLink){
+        indicatorMove(actualLink);
+    }
 }
 
 function mostrar(id){
@@ -31,5 +52,4 @@ function mostrar(id){
     sections.forEach(sec => {
         sec.style.display = "none";
     })
-    console.log("Se habilita sección segun ID")
 }
