@@ -14,6 +14,7 @@ export function indicatorMove(link){
 }
 
 export function resaltCurrentIconNav(link){
+    console.log(link)
 }
 
 export function showSections(e) {

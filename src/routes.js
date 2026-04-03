@@ -1,5 +1,4 @@
 import { indicatorMove } from "./nav.js";
-
 const routes = {
     "/":  () => mostrar("dashboard"),
     "/dashboard":  () => mostrar("dashboard"),
@@ -14,34 +13,25 @@ const routes = {
 
 export function router() {
     const base = import.meta.env.BASE_URL;
-
     let currentPath = window.location.pathname;
-
     if(base !== "/") currentPath = currentPath.replace(base, "");
-
-    currentPath = currentPath.replace(/\/$/, "") || "/";
-
-    if (currentPath === "/") {
+    currentPath = currentPath.replace(/\/$/, "");
+    if (!currentPath) {
         currentPath = "/dashboard"
         history.replaceState({}, "", base + "dashboard");
     }
-    
+    if(!currentPath.startsWith("/")){
+        currentPath = "/" + currentPath;
+    }
     let route = routes[currentPath];
-
     if(!route) {
         history.replaceState({}, "", base + "404");
         route = routes["/404"];
         route();
         return
     }
-
     route();
-
-
-    const href = currentPath === "/" ? "/dashboard" : currentPath;
-
-    const actualLink = document.querySelector(`.principal-nav-list-a[href='${href}']`);
-
+    const actualLink = document.querySelector(`.principal-nav-list-a[href='${currentPath}']`);
     if(actualLink){
         indicatorMove(actualLink);
     }
