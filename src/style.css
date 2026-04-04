@@ -104,6 +104,10 @@ a:focus{
     transition: all 0.3s ease;
 }
 
+.fill{display: none;}
+.active .outline{display: none;}
+.active .fill{display: flex;}
+
 @media (max-width: 600px) {
     body{
         grid-template-columns: 48vw 1fr;

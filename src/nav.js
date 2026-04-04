@@ -14,7 +14,19 @@ export function indicatorMove(link){
 }
 
 export function resaltCurrentIconNav(link){
-    console.log(link)
+    const allLinks = document.querySelectorAll(".principal-nav-list-a");
+    allLinks.forEach(l => {
+        const i = l.querySelector("i");
+        if(!i) return;
+        [...i.classList].forEach(cls => {
+            if(!cls.endsWith("-fill"))return;
+            i.classList.replace(cls, cls.replace("-fill", ""))
+        })
+    });
+    const i = link.querySelector("i");
+    if(!i) return;
+    const baseClass = [...i.classList].find(cls => cls.startsWith("bi-") && !cls.endsWith("-fill"));
+    i.classList.replace(baseClass, baseClass + "-fill");
 }
 
 export function showSections(e) {
@@ -26,4 +38,4 @@ export function showSections(e) {
     const url = base + link.pathname.replace("/", "");
     history.pushState({}, "", url)
     router();
-}
+}   
