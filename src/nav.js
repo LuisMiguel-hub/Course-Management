@@ -44,6 +44,33 @@ export function toogleNav(){
     document.body.classList.toggle("full-body");
     const navCls = nav.classList.contains("toggle-nav")
     document.querySelector("[aria-label='Abrir Nav']").style.display = !navCls ? "none" : "flex";
+    document.querySelector(".overlay").classList.toggle("hidden");
+}
+
+let startX = 0;
+let isDrawing = false;
+export function slideToggleNav(e){
+    startX = e.clientX;
+    isDrawing = true;
+    document.addEventListener("pointermove", slideToggleNavMove);
+    document.addEventListener("pointerup", slideToggleNavEnd, {once: true});
+}
+
+function slideToggleNavMove(e){
+    if(!isDrawing) return;
+    const diff = e.clientX - startX;
+    const clamped = Math.min(diff, 0);
+    document.querySelector(".principal-nav").style.transform = `translateX(${clamped}px)`;
+}
+
+function slideToggleNavEnd(e){
+    document.removeEventListener("pointermove", slideToggleNavMove);
+    const diff = e.clientX - startX;
+    if(diff < -70){
+        toogleNav();
+    } else {
+        document.querySelector(".principal-nav").style.transform = "";
+    }
 }
 
 export const observer = new ResizeObserver(() => {

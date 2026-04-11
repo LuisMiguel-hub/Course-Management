@@ -9,16 +9,17 @@
     <script type="module" src="src/main.js"></script>
 </head>
 <body class="full-body">
+    <div class="overlay hidden"></div>
     <nav class="principal-nav toggle-nav">
         <div class="nav-indicator"></div>
         <div class="principal-nav-up">
             <div class="nav-header">
+                <button class="toggle-nav-btn" aria-label="Cerrar Nav">
+                    <i class="bi bi-layout-sidebar"></i>
+                </button>
                 <a href=""  class="logo-nav">
                     <img src="src/assets/logo.png" alt="Page Logo">
                 </a>
-                <button class="toggle-nav-btn" aria-label="Cerrar Nav">
-                    <i class="bi bi-layout-sidebar-inset"></i>
-                </button>
             </div>
             <ul class="principal-nav-list">
                 <li class="principal-nav-list-item">
@@ -70,13 +71,16 @@
     </nav>
     <div class="layout">
         <header class="header nav-active">
-            <button class="toggle-nav-btn" aria-label="Abrir Nav">
-                <i class="bi bi-layout-sidebar-inset"></i>
-            </button>
-            <h1>My Courses</h1>
+            <div class="header-menu">
+                <button class="toggle-nav-btn" aria-label="Abrir Nav">
+                    <i class="bi bi-layout-sidebar-inset"></i>
+                </button>
+                <h1>Ł Courses</h1>
+                </div>
             <div class="header-actions">
                 <button class="notis-btn" aria-label="Abrir notificaciones">
                     <i class="bi bi-bell-fill"></i>
+                    <span></span>
                 </button>
                 <button class="account-btn" aria-label="Abrir cuenta">
                     <img src="https://i.pinimg.com/736x/fc/e9/f5/fce9f51832af549137a90b98d741d522.jpg" alt="">
