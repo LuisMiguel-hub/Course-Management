@@ -28,7 +28,7 @@ export function router() {
         history.replaceState({}, "", base + "404");
         route = routes["/404"];
         route();
-        return
+        return;
     }
     route();
     const actualLink = document.querySelector(`.principal-nav-list-a[href='${currentPath}']`);
@@ -38,8 +38,5 @@ export function router() {
 }
 
 function mostrar(id){
-    const sections = document.querySelectorAll("section");
-    sections.forEach(sec => {
-        sec.style.display = "none";
-    })
+    
 }

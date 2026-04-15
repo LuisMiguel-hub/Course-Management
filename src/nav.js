@@ -41,9 +41,6 @@ export function toogleNav(){
     const nav = document.querySelector(".principal-nav");
     if(!nav) return;
     nav.classList.toggle("toggle-nav");
-    document.body.classList.toggle("full-body");
-    const navCls = nav.classList.contains("toggle-nav")
-    document.querySelector("[aria-label='Abrir Nav']").style.display = !navCls ? "none" : "flex";
     document.querySelector(".overlay").classList.toggle("hidden");
 }
 
@@ -60,13 +57,16 @@ function slideToggleNavMove(e){
     if(!isDrawing) return;
     const diff = e.clientX - startX;
     const clamped = Math.min(diff, 0);
+    document.querySelector(".principal-nav").style.transition = "none";
     document.querySelector(".principal-nav").style.transform = `translateX(${clamped}px)`;
 }
 
 function slideToggleNavEnd(e){
+    document.querySelector(".principal-nav").style.transition = "";
     document.removeEventListener("pointermove", slideToggleNavMove);
     const diff = e.clientX - startX;
-    if(diff < -70){
+    if(diff < -90){
+        document.querySelector(".principal-nav").style.transform = "";
         toogleNav();
     } else {
         document.querySelector(".principal-nav").style.transform = "";
