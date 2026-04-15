@@ -1,0 +1,63 @@
+/*Notificaciones*/
+.notifications-sec{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.notis-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-bottom: 1px solid var(--color-one);
+    padding-bottom: 10px;
+}
+
+.filter-div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--color-one);
+    border-radius: 15px;
+    height: 30px;
+    overflow: hidden;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: white;
+}
+
+#searching-input{
+    border: none;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#searching-input:focus{
+    outline: none;
+}
+
+.clean-search-btn{
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
+}
+
+.notis-counter{
+    background-color: var(--color-three);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notis-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.notis-box > h2{
+    font-size: 22px;
+}
