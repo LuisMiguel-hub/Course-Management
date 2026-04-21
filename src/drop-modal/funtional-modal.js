@@ -1,5 +1,5 @@
 import { accountRender } from "./render-modal/account/account.js";
-import { notificationsRender } from "./render-modal/notifications/notifications.js";
+import { listeners, notificationsRender } from "./render-modal/notifications/notifications.js";
 
 const modal = document.querySelector(".dinamic-modal");
 
@@ -7,9 +7,11 @@ export function openModal(e) {
     modal.classList.add("dinamic-modal-visible");
     document.querySelector(".overlay").classList.remove("hidden");
     const content = e.currentTarget.dataset.dropModal;
+    modal.innerHTML = "";
     switch (content) {
         case "notifications":
-            notificationsRender();
+            modal.innerHTML = notificationsRender();
+            listeners();
             break;
         case "account":
             accountRender();

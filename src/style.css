@@ -46,7 +46,9 @@ body{
     z-index: 1000;
     align-self: center;
     justify-self: center;
-    width: 90%;
+    width: 85%;
+    height: 500px;
+    overflow: scroll;
     gap: 15px;
     background: linear-gradient(60deg,
         var(--color-four) 4%,
@@ -88,129 +90,6 @@ body{
 
 /*Notificaciones*/
 
-.notifications-sec{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.notis-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    border-bottom: 1px solid var(--color-one);
-    padding-bottom: 10px;
-}
-
-.filter-div{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    border: 1px solid var(--color-one);
-    border-radius: 15px;
-    height: 30px;
-    overflow: hidden;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: white;
-}
-
-#searching-input{
-    border: none;
-    padding: 5px;
-    font-size: 16px;
-}
-
-#searching-input:focus{
-    outline: none;
-}
-
-.clean-search-btn{
-    font-size: 18px;
-    background-color: transparent;
-    border: none;
-}
-
-.notis-counter{
-    background-color: var(--color-three);
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.notis-box{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.notis-box > h2{
-    font-size: 22px;
-}
-
-.notis-content{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 340px;
-    overflow: scroll;
-}
-
-.notification{
-    display: flex;
-    align-items: center;
-    border-radius: 12px;
-    padding: 5px 10px;
-    gap: 10px;
-    position: relative;
-    background-color: var(--color-three);
-    border: 2px solid white;
-}
-
-.noti-img{
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-}
-
-.noti-text{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.noti-text p{
-    display: -webkit-box;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.date-noti{
-    font-size: 10px;
-    font-weight: bolder;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    align-self: flex-start;
-    margin-top: 6px;
-}
-.no-seen{
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: var(--color-five);
-    position: absolute;
-    transform: translateY(-50%);
-    top: 50%;
-    right: 20px;
-}
-
 /*Overlay*/
 .overlay{
     position: fixed;
@@ -237,7 +116,6 @@ body{
     align-items: center;
     gap: clamp(40px, 70px, 100px);
     padding: 30px 10px 30px 0;
-    position: fixed;
     transition: all 0.3s ease;
     z-index: 1000;
     width: 100%;
