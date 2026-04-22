@@ -2,20 +2,22 @@ import sysimg from "../../../assets/Notifications imgs/sys-noti-icon.jpg";
 import courseicon from "../../../assets/Notifications imgs/course-icon.png";
 import frindsicon from "../../../assets/Notifications imgs/friends-icon.webp";
 import messageicon from "../../../assets/Notifications imgs/message-icon.png";
+import { notifications, notisCounter } from "./notifications.js";
 
 function time(){
   const date = new Date();
   return(`${date.getHours() == 0 ? 12 : date.getHours()}:${date.getMinutes()} ${date.getHours() > 12 ? "pm" : "am"}`)
 }
 
-export const notifications = [
+export const notificationsDataBase = [
   {
     id: 1,
     type: "System",
     message: "Your password was changed successfully.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 2,
@@ -23,7 +25,8 @@ export const notifications = [
     message: "New lesson available in 'Advanced CSS Layouts'.",
     img: courseicon,
     imgalt: "Imagen de notificación de cursos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 3,
@@ -31,7 +34,8 @@ export const notifications = [
     message: "Carlos sent you a friend request.",
     img: frindsicon,
     imgalt: "Imagen de notificación de amigos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 4,
@@ -39,7 +43,8 @@ export const notifications = [
     message: "Your session will expire in 10 minutes.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 5,
@@ -47,7 +52,8 @@ export const notifications = [
     message: "You completed 'JavaScript Basics'. Nice.",
     img: courseicon,
     imgalt: "Imagen de notificación de cursos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 6,
@@ -55,7 +61,8 @@ export const notifications = [
     message: "You have 3 unread messages.",
     img: messageicon,
     imgalt: "Imagen de notificación de mensajes",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 7,
@@ -63,7 +70,8 @@ export const notifications = [
     message: "Laura is now online.",
     img: frindsicon,
     imgalt: "Imagen de notificación de amigos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 8,
@@ -71,7 +79,8 @@ export const notifications = [
     message: "Backup completed successfully.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 9,
@@ -79,7 +88,8 @@ export const notifications = [
     message: "New course added: 'React from Scratch'.",
     img: courseicon,
     imgalt: "Imagen de notificación de cursos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 10,
@@ -87,7 +97,8 @@ export const notifications = [
     message: "New message from Andrés.",
     img: messageicon,
     imgalt: "Imagen de notificación de mensajes",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 11,
@@ -95,7 +106,8 @@ export const notifications = [
     message: "Mateo liked your profile.",
     img: frindsicon,
     imgalt: "Imagen de notificación de amigos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 12,
@@ -103,7 +115,8 @@ export const notifications = [
     message: "Security alert: New login detected.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 13,
@@ -111,7 +124,8 @@ export const notifications = [
     message: "Deadline approaching for 'UI Design'.",
     img: courseicon,
     imgalt: "Imagen de notificación de cursos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 14,
@@ -119,7 +133,8 @@ export const notifications = [
     message: "Group chat: 5 new messages.",
     img: messageicon,
     imgalt: "Imagen de notificación de mensajes",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 15,
@@ -127,7 +142,8 @@ export const notifications = [
     message: "Update available. You should probably install it.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   },
 
   // 💀 humor negro sutil
@@ -138,7 +154,8 @@ export const notifications = [
     message: "Everything is working perfectly… suspiciously.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 17,
@@ -146,7 +163,8 @@ export const notifications = [
     message: "You said you'd study today. That was a lie.",
     img: courseicon,
     imgalt: "Imagen de notificación de cursos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 18,
@@ -154,7 +172,8 @@ export const notifications = [
     message: "No one is online. Just like your motivation.",
     img: frindsicon,
     imgalt: "Imagen de notificación de amigos",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 19,
@@ -162,7 +181,8 @@ export const notifications = [
     message: "You re-read that message again, didn't you?",
     img: messageicon,
     imgalt: "Imagen de notificación de mensajes",
-    time: time()
+    time: time(),
+    seen: false
   },
   {
     id: 20,
@@ -170,6 +190,25 @@ export const notifications = [
     message: "No errors detected. Yet.",
     img: sysimg,
     imgalt: "Imagen de notification del sistema",
-    time: time()
+    time: time(),
+    seen: false
   }
 ];
+
+
+export function updateNotifications(n){
+    localStorage.setItem("Notifications", JSON.stringify(n));
+    notisCounter();
+}
+
+export function getNotifications(){
+    const notis = localStorage.getItem("Notifications");
+    notisCounter();
+    return JSON.parse(notis);
+}
+
+export function deleteNotification(id){
+    const actualiced = notifications.filter(n => n.id != id);
+    updateNotifications(actualiced);
+    return actualiced;
+}

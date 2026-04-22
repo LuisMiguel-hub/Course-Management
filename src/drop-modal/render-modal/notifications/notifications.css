@@ -4,6 +4,7 @@
     flex-direction: column;
     gap: 15px;
     height: 100%;
+    overflow: hidden;
 }
 
 .notis-header{
@@ -59,6 +60,7 @@
     flex-direction: column;
     gap: 10px;
     height: 100%;
+    overflow: scroll;
 }
 
 .notis-box > h2{
@@ -68,10 +70,9 @@
 .notis-content{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    height: 100%;
     overflow: scroll;
     transition: all 0.3s ease;
+    height: 100%;
 }
 
 .notification{
@@ -86,13 +87,19 @@
     min-height: 80px;
     color: white;
     overflow: hidden;
-    transition: all 0.3s ease, opacity 0.1s ease;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.notification:last-child{
+    margin-bottom: 0;
 }
 
 .noti-img{
-    width: 35px;
-    height: 35px;
+    width: 37px;
+    height: 37px;
     border-radius: 50%;
+    border: 2px solid var(--color-one);
 }
 
 .noti-text{
@@ -145,4 +152,16 @@
     min-height: 0;
     height: 0;
     border: 0px solid transparent;
+    margin-bottom: 0;
+}
+
+.seen-noti{
+    background-color: transparent;
+    backdrop-filter: blur(15px);
+    color: var(--color-one);
+    border: 2px solid var(--color-one);
+}
+
+.seen-noti .delete-noti{
+    color: var(--color-one);
 }

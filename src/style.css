@@ -51,20 +51,20 @@ body{
     overflow: scroll;
     gap: 15px;
     background: linear-gradient(60deg,
-        var(--color-four) 4%,
+        var(--color-three) 4%,
         white 8%,
-        var(--color-four) 12%,
-        var(--color-four) 20%,
+        var(--color-three) 12%,
+        var(--color-three) 20%,
         white 25%,
-        var(--color-four) 30%,
+        var(--color-three) 30%,
         white 43%,
         white 57%,
-        var(--color-four) 70%,
+        var(--color-three) 70%,
         white 75%,
-        var(--color-four) 80%,
-        var(--color-four) 88%,
+        var(--color-three) 80%,
+        var(--color-three) 88%,
         white 92%,
-        var(--color-four) 96%
+        var(--color-three) 96%
     );
     border-radius: 15px;
     border: 1px solid white;

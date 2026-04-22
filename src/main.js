@@ -4,6 +4,7 @@ import { router } from "./routes.js";
 import { observer } from "./nav.js";
 import { openModal } from "./drop-modal/funtional-modal.js";
 import { closeOverlay } from "./overlay.js";
+import { counter } from "./drop-modal/render-modal/notifications/notifications.js";
 router();
 
 document.addEventListener("click", showSections);
@@ -13,3 +14,4 @@ document.querySelectorAll(".toggle-nav-btn").forEach(ele => {ele.addEventListene
 document.querySelector(".principal-nav").addEventListener("pointerdown", slideToggleNav);
 observer.observe(document.querySelector(".principal-nav"));
 document.querySelectorAll("[data-drop-modal]").forEach(btn => btn.addEventListener("click", openModal));
+counter();

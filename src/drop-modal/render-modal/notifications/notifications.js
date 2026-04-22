@@ -1,5 +1,6 @@
 import "./notifications.css";
-import { notifications } from "./notis-list.js";
+import { deleteNotification, getNotifications, notificationsDataBase, updateNotifications } from "./notis-list.js";
+export let notifications = getNotifications() || notificationsDataBase;
 export function notificationsRender(){
     return(`
         <section class="notifications-sec">
@@ -13,14 +14,14 @@ export function notificationsRender(){
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
-                <span class="notis-counter">9+</span>
+                <span class="notis-counter"></span>
             </div>
             <div class="notis-box">
                 <h2>Notifications</h2>
                 <div class="notis-content">
                     ${
                         notifications.map(n => {
-                            return(`<div class="notification" id="n-${n.id}">
+                            return(`<div class="notification ${n.seen ? "seen-noti" : ""}" id="n-${n.id}">
                                         <img class="noti-img" src="${n.img}" alt="${n.imgalt}">
                                         <div class="noti-text">
                                             <h3>${n.type}</h3>
@@ -39,18 +40,65 @@ export function notificationsRender(){
 
 export function listeners(){
     deleteListener();
+    seenListener();
+    notisCounter();
 }
 
 function deleteListener(){
     document.addEventListener("click", e => {
         const btnD = e.target.closest(".delete-noti");
         if (!btnD) return;
+
         const noti = document.getElementById(`n-${btnD.dataset.id}`);
         noti.classList.add("noti-borrada");
-        document.querySelector(".notification").style.marginBottom = "-10px";
+
+        notifications = deleteNotification(btnD.dataset.id);
+
         noti.addEventListener("transitionend", () => {
-            document.querySelector(".notification").style.marginBottom = "0px";
             noti.remove();
         }, {once: true})
+
     })
+}
+
+function seenListener(){
+    document.addEventListener("click", e => {
+        const noti = e.target.closest(".notification");
+        const isDeleteBtn = e.target.closest(".delete-noti");
+        if(noti && !isDeleteBtn){
+            noti.classList.add("seen-noti");
+            notifications.forEach((n) => {
+                if(n.id === Number(noti.id.replace("n-", ""))){
+                    n.seen = true;
+                }
+            });
+            updateNotifications(notifications);
+        }
+    })
+}
+
+export function notisCounter(){
+    const contadorhtml = document.querySelector(".notis-counter");
+    if(!contadorhtml) return;
+
+    let con = counter()
+
+    contadorhtml.textContent = con > 10 ? "10+" : con;
+    
+}
+
+export function counter(){
+    let con = 0;
+
+    notifications.forEach(n => {
+        if(!n.seen) con++
+    });
+
+    if (con == 0){
+        document.querySelector(".notis-btn span").style.display = "none";
+    } else {
+        document.querySelector(".notis-btn span").style.display = "";
+    }
+
+    return con;
 }
