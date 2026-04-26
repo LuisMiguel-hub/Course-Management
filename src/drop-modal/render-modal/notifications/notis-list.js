@@ -2,7 +2,7 @@ import sysimg from "../../../assets/Notifications imgs/sys-noti-icon.jpg";
 import courseicon from "../../../assets/Notifications imgs/course-icon.png";
 import frindsicon from "../../../assets/Notifications imgs/friends-icon.webp";
 import messageicon from "../../../assets/Notifications imgs/message-icon.png";
-import { notifications, notisCounter } from "./notifications.js";
+import { deletedNotifications, notifications, notisCounter } from "./notifications.js";
 
 function time(){
   const date = new Date();
@@ -195,20 +195,28 @@ export const notificationsDataBase = [
   }
 ];
 
-
-export function updateNotifications(n){
+export function updateNotifications(n, dn){
     localStorage.setItem("Notifications", JSON.stringify(n));
+    if(dn)localStorage.setItem("deletedNotifications", JSON.stringify(dn));
     notisCounter();
 }
 
 export function getNotifications(){
-    const notis = localStorage.getItem("Notifications");
-    notisCounter();
-    return JSON.parse(notis);
+    let notis = localStorage.getItem("Notifications");
+    let Dnotis = localStorage.getItem("deletedNotifications");
+    notis = JSON.parse(notis);
+    Dnotis = JSON.parse(Dnotis);
+    return[notis, Dnotis];
 }
 
 export function deleteNotification(id){
+    const found = notifications.find(n => n.id == id);
+    if(!found) return;
+    deletedNotifications.push({
+        ...found,
+        deletedAt: Date.now()
+    });
     const actualiced = notifications.filter(n => n.id != id);
-    updateNotifications(actualiced);
+    updateNotifications(actualiced, deletedNotifications);
     return actualiced;
 }
