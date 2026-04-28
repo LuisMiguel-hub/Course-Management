@@ -196,20 +196,19 @@ export const notificationsDataBase = [
 ];
 
 export function updateNotifications(n, dn){
-    localStorage.setItem("Notifications", JSON.stringify(n));
+    localStorage.setItem("notifications", JSON.stringify(n));
     if(dn)localStorage.setItem("deletedNotifications", JSON.stringify(dn));
     notisCounter();
 }
 
 export function getNotifications(){
-    let notis = localStorage.getItem("Notifications");
-    let Dnotis = localStorage.getItem("deletedNotifications");
-    notis = JSON.parse(notis);
-    Dnotis = JSON.parse(Dnotis);
+    let notis = JSON.parse(localStorage.getItem("notifications")) || notificationsDataBase;
+    let Dnotis = JSON.parse(localStorage.getItem("deletedNotifications")) || [];
     return[notis, Dnotis];
 }
 
 export function deleteNotification(id){
+  console.log(notifications)
     const found = notifications.find(n => n.id == id);
     if(!found) return;
     deletedNotifications.push({

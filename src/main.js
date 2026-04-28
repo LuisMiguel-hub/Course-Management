@@ -5,6 +5,8 @@ import { observer } from "./nav.js";
 import { openModal } from "./drop-modal/funtional-modal.js";
 import { closeOverlay } from "./overlay.js";
 import { counter } from "./drop-modal/render-modal/notifications/notifications.js";
+import { syncStorage } from "./migrations/migrations.js";
+syncStorage();
 router();
 
 document.addEventListener("click", showSections);

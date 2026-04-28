@@ -1,5 +1,5 @@
 import { accountRender } from "./render-modal/account/account.js";
-import { listeners, notificationsRender, SecNotificationsRender, spawnNotis } from "./render-modal/notifications/notifications.js";
+import { listeners, notifications, notificationsRender, SecNotificationsRender, spawnNotis } from "./render-modal/notifications/notifications.js";
 
 const modal = document.querySelector(".dinamic-modal");
 
@@ -10,7 +10,6 @@ export function openModal(e) {
     switch (content) {
         case "notifications":
             SecNotificationsRender();
-            spawnNotis();
             break;
         case "account":
             accountRender();

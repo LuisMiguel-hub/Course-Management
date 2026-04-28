@@ -1,9 +1,15 @@
 import "./notifications.css";
 import { deleteNotification, getNotifications, notificationsDataBase, updateNotifications } from "./notis-list.js";
-export let notifications = getNotifications()[0] || notificationsDataBase;
-console.log(notifications)
-export let deletedNotifications = getNotifications()[1] || [];
-notisCounter();
+let [n, d] = getNotifications();
+export let notifications = n;
+export let deletedNotifications = d;
+
+
+export function setNotifications(newN, newND){
+    notifications = newN;
+    deletedNotifications = newND;
+}
+
 export function SecNotificationsRender(){
     const modal = document.querySelector(".dinamic-modal");
     modal.innerHTML = `
@@ -29,10 +35,12 @@ export function SecNotificationsRender(){
         </section> 
     `;
     listeners();
-    notificationsRender();
+    notisCounter();
+    spawnNotis();
+    notificationsRender(notifications);
 }
 
-export function notificationsRender(notis = notifications) {
+export function notificationsRender(notis) {
     const notiBox = document.querySelector(".notis-content");
     if(!notiBox) return;
 
@@ -154,7 +162,8 @@ function deleteListener(){
         const noti = document.getElementById(`n-${btnD.dataset.id}`);
         noti.classList.add("noti-borrada");
 
-        notifications = deleteNotification(Number(btnD.dataset.id));
+        const updated = deleteNotification(Number(btnD.dataset.id));
+        if(updated) notifications = updated;
         notisCounter();
 
         noti.addEventListener("transitionend", () => {
@@ -180,25 +189,27 @@ function seenListener(){
     })
 }
 
+let lready = false;
 export function listeners(){
+    if(lready) return;
+    lready = true;
     searchListener();
     cleanSearch();
     deleteListener();
     seenListener();
-    notisCounter();
 }
 
 //SPAWNNN
 export function spawnNotis(){
     const now = Date.now();
-    const candidates = deletedNotifications.filter(n => (now - n.deletedAt) > 10000);
+    const candidates = deletedNotifications.filter(n => (now - n.deletedAt) > 20000);
     if(!candidates.length) {
-        notificationsRender();
+        notificationsRender(notifications);
         return;
     }
 
     const amount = Math.min(
-        Math.floor(Math.random()*6),
+        Math.floor(Math.random()*6) + 1,
         candidates.length
     );
 
@@ -212,11 +223,12 @@ export function spawnNotis(){
         notifications.unshift(rest);
     });
 
-    deletedNotifications = deletedNotifications.filter(n => {
-        !selected.includes(n.id)
-    });
-    console.log(deletedNotifications)
-    notificationsRender();
+    deletedNotifications = deletedNotifications.filter(n => 
+        !selected.some(s => s.id == n.id)
+    );
+    notificationsRender(notifications);
     updateNotifications(notifications, deletedNotifications);
-    notisCounter()
+    notisCounter();
 }
+
+notisCounter();
