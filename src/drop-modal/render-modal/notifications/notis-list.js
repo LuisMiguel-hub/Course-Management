@@ -4,9 +4,12 @@ import frindsicon from "../../../assets/Notifications imgs/friends-icon.webp";
 import messageicon from "../../../assets/Notifications imgs/message-icon.png";
 import { deletedNotifications, notifications, notisCounter } from "./notifications.js";
 
-function time(){
+export function time(){
   const date = new Date();
-  return(`${date.getHours() == 0 ? 12 : date.getHours()}:${date.getMinutes()} ${date.getHours() > 12 ? "pm" : "am"}`)
+  const hours = date.getHours() % 12 || 0;
+  const minutes =  date.getMinutes().toString().padStart(2, "0");
+  const period = date.getHours() > 12 ? "pm" : "am";
+  return(`${hours}:${minutes} ${period}`);
 }
 
 export const notificationsDataBase = [
@@ -219,3 +222,4 @@ export function deleteNotification(id){
     updateNotifications(actualiced, deletedNotifications);
     return actualiced;
 }
+

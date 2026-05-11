@@ -1,5 +1,5 @@
 import { accountRender } from "./render-modal/account/account.js";
-import { listeners, notifications, notificationsRender, SecNotificationsRender, spawnNotis } from "./render-modal/notifications/notifications.js";
+import {SecNotificationsRender} from "./render-modal/notifications/notifications.js";
 
 const modal = document.querySelector(".dinamic-modal");
 
@@ -9,9 +9,13 @@ export function openModal(e) {
     const content = e.currentTarget.dataset.dropModal;
     switch (content) {
         case "notifications":
+            modal.classList.remove("account-modal");
+            modal.classList.add("notis-modal");
             SecNotificationsRender();
             break;
-        case "account":
+            case "account":
+            modal.classList.remove("notis-modal");
+            modal.classList.add("account-modal");
             accountRender();
             break;
     }

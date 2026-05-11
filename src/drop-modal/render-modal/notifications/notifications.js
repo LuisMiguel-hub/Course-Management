@@ -1,5 +1,5 @@
 import "./notifications.css";
-import { deleteNotification, getNotifications, notificationsDataBase, updateNotifications } from "./notis-list.js";
+import { deleteNotification, getNotifications, notificationsDataBase, time, updateNotifications } from "./notis-list.js";
 let [n, d] = getNotifications();
 export let notifications = n;
 export let deletedNotifications = d;
@@ -12,6 +12,7 @@ export function setNotifications(newN, newND){
 
 export function SecNotificationsRender(){
     const modal = document.querySelector(".dinamic-modal");
+    modal.classList.remove("modal-account");
     modal.innerHTML = `
         <section class="notifications-sec">
             <div class="notis-header">
@@ -34,7 +35,7 @@ export function SecNotificationsRender(){
             </div>
         </section> 
     `;
-    listeners();
+    listenersNotifications();
     notisCounter();
     spawnNotis();
     notificationsRender(notifications);
@@ -64,7 +65,7 @@ function searchListener(){
     if(!input) return;
 
     let timeout;
-
+    
     input.addEventListener("input", () => {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
@@ -109,7 +110,7 @@ function getFilterNotis(query) {
                 ...n,
                 score: scoreMatch(n.message, query)
             }))
-            .filter(n => n.score > 5)
+            .filter(n => n.score > 2)
             .sort((a, b) => b.score - a.score)
 }
 
@@ -137,9 +138,9 @@ export function counter(){
     });
 
     if (con == 0){
-        document.querySelector(".notis-btn span").style.display = "none";
+        document.querySelector(".notis-btn span").style.opacity = "0";
     } else {
-        document.querySelector(".notis-btn span").style.display = "";
+        document.querySelector(".notis-btn span").style.opacity = "1";
     }
 
     return con;
@@ -190,7 +191,7 @@ function seenListener(){
 }
 
 let lready = false;
-export function listeners(){
+export function listenersNotifications(){
     if(lready) return;
     lready = true;
     searchListener();
@@ -202,14 +203,14 @@ export function listeners(){
 //SPAWNNN
 export function spawnNotis(){
     const now = Date.now();
-    const candidates = deletedNotifications.filter(n => (now - n.deletedAt) > 20000);
+    const candidates = deletedNotifications.filter(n => (now - n.deletedAt) > 300000);
     if(!candidates.length) {
         notificationsRender(notifications);
         return;
     }
 
     const amount = Math.min(
-        Math.floor(Math.random()*6) + 1,
+        Math.floor(Math.random()*10) + 1,
         candidates.length
     );
 
@@ -218,14 +219,16 @@ export function spawnNotis(){
     .slice(0, amount);
 
     selected.forEach(n => {
+        n.seen = false;
+        n.time = time();
         const {deletedAt, ...rest} = n;
-
         notifications.unshift(rest);
     });
 
     deletedNotifications = deletedNotifications.filter(n => 
         !selected.some(s => s.id == n.id)
     );
+
     notificationsRender(notifications);
     updateNotifications(notifications, deletedNotifications);
     notisCounter();
