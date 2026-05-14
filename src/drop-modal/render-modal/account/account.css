@@ -86,7 +86,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 30px;
     margin-top: 15px;
 }
 
@@ -101,7 +100,7 @@
 
 .lob{
     border: 1px solid red;
-    margin-top: 20px;
+    margin-top: 170px;
 }
 
 .principal-div-profile button{
@@ -309,4 +308,58 @@
 .editing-profile .actions button:hover, .editing-profile .actions button:active{
     background-color: var(--color-four);
     color: black;
+}
+
+
+/* Edit personal info */
+.prin-div{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.prin-div hr{
+    width: 95%;
+    border: none;
+    background-color: rgb(255, 255, 255, 0.5);
+    height: 1px;
+    align-self: center;
+}
+
+.prin-div .info-edit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding: 0 13px;
+}
+
+.personal-info{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    color: white;
+    position: relative;
+    justify-self: self-start;
+}
+
+.panel:has(.personal-info){
+    align-items: start;
+    padding-top: 150px;
+}
+
+.personal-info h2{
+    font-size: 30px;
+}
+
+.personal-info > p{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 200;
+    margin-bottom: 40px;
 }

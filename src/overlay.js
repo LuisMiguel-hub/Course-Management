@@ -1,3 +1,5 @@
+import { navigate } from "./routes.js";
+
 export function closeOverlay() {
 
     const overlay = document.querySelector(".overlay");
@@ -12,3 +14,10 @@ export function closeOverlay() {
         modal.innerHTML = "";
     }, 300);
 }
+
+document.addEventListener("click", e => {
+    const overlay = e.target.closest(".overlay") || e.target.closest(".close-modal-account");
+    if(!overlay) return;
+
+    navigate("/");
+})

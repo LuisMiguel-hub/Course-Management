@@ -1,4 +1,4 @@
-import { router } from "./routes.js";
+import { navigate, router } from "./routes.js";
 
 export function indicatorMove(link){
     const navIndicator = document.querySelector(".nav-indicator");
@@ -7,6 +7,10 @@ export function indicatorMove(link){
     navIndicator.style.top = `${link.offsetTop + 5}px`;
     resaltCurrentIconNav(link)
 }
+
+
+
+
 
 export function resaltCurrentIconNav(link){
     const allLinks = document.querySelectorAll(".principal-nav-list-a");
@@ -26,23 +30,37 @@ export function resaltCurrentIconNav(link){
     i.classList.replace(baseClass, baseClass + "-fill");
 }
 
+
+
+
+
 export function showSections(e) {
     const classCss = ".principal-nav-list-a";
     const link = e.target.closest(classCss);
     if (!link) return;
     e.preventDefault();
-    const base = import.meta.env.BASE_URL;
-    const url = base + link.pathname.replace("/", "");
-    history.pushState({}, "", url)
-    router();
+    navigate(link.pathname);
 }
+
+
+
+
 
 export function toogleNav(){
     const nav = document.querySelector(".principal-nav");
     if(!nav) return;
-    nav.classList.toggle("toggle-nav");
-    document.querySelector(".overlay").classList.toggle("hidden");
+    const action = nav.classList.contains("toggle-nav") ? "remove" : "add";
+    openCloseNav(nav, action)
 }
+
+export function openCloseNav(nav, action){
+    document.querySelector(".overlay").classList[action]("hidden");
+    nav.classList[action]("toggle-nav");
+}
+
+
+
+
 
 let startX = 0;
 let isDrawing = false;
@@ -72,6 +90,10 @@ function slideToggleNavEnd(e){
         document.querySelector(".principal-nav").style.transform = "";
     }
 }
+
+
+
+
 
 export const observer = new ResizeObserver(() => {
     const active = document.querySelector(".principal-nav-list-a.active");

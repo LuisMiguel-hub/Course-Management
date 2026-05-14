@@ -1,5 +1,7 @@
 import { closeOverlay } from "../../../overlay.js";
 import "./account.css";
+
+/*RENDERIZADO DE CUENTA */
 export function accountRender() {
     const modal = document.querySelector(".dinamic-modal");
     modal.classList.remove("notis-modal");
@@ -33,12 +35,6 @@ export function accountRender() {
                         <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
-                <div class="principal-div-profile">
-                    <button class="edit" data-type="settings" aria-label="Configuraciones de perfil">
-                        Settings
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-                </div>
                 <div class="principal-div-profile lob">
                     <button class="log-out-btn" aria-label="Log Out">
                         Log Out
@@ -49,34 +45,11 @@ export function accountRender() {
         </section>`
 }
 
-let listenersInd = false;
-function listenersAccount(){
-    if(!listenersInd){
-        closeProfile();
-        goPanel();
-        backPanelBtn();
-        changeImgProfile();
-        selectProfileImg();
-        goMiniPanel();
-        spanMove();
-        closeMiniPanel();
-    }
-    listenersInd = true;
-}
 
-function closeProfile(){
-    document.addEventListener("click", e => {
-        const modal = document.querySelector(".dinamic-modal");
-        const btnClose = e.target.closest(".close-modal-account");
-        if(btnClose){
-            closeOverlay();
-            setTimeout(() => {
-                modal.innerHTML = "";
-            }, 300);
-        }
-    })
-}
 
+
+
+/*CONTENIDO DE PANELES */
 let panels = {
     edit: () => {
         return `
@@ -87,17 +60,17 @@ let panels = {
                 <span class="username-preview">(Papu)</span>
             </div>
             <div class="principal-div-profile parameters">
-                    <div class="edit-preview" data-type="editing" data-target="Name">
+                    <div class="edit-preview edit" data-type="editing" data-mini="1" data-target="Name">
                         <p>Edit name</p>
                         <i class="bi bi-chevron-right"></i>
                     </div>
                     <hr>
-                    <div class="edit-preview" data-type="editing" data-target="Username">
+                    <div class="edit-preview edit" data-type="editing" data-mini="1" data-target="Username">
                         <p>Edit Username</p>
                         <i class="bi bi-chevron-right"></i>
                     </div>
                     <hr>
-                    <div class="edit-preview" data-type="editing" data-target="Photo">
+                    <div class="edit-preview edit" data-type="editingPhoto" data-mini="1" data-target="Photo">
                         <p>Edit photo</p>
                         <i class="bi bi-chevron-right"></i>
                     </div>
@@ -105,8 +78,25 @@ let panels = {
         </div>
     `
     },
-    info: ``,
-    settings: ``,
+    info: () => {
+        return `
+            <div class="personal-info">
+                <h2>Your personal info</h2>
+                <p>This information is very important. <br>Be carefull.</p>
+                <div class="edit-personal-info-div prin-div">
+                    <div class="edit-email info-edit edit" data-type="editing" data-mini="1" data-target="Email">
+                        <p>Edit email</p>
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                    <hr>
+                    <div class="edit-phone info-edit edit" data-type="editing" data-mini="1" data-target="Phone">
+                        <p>Edit phone</p>
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        `
+    },
     editing: target => {
         return `
         <div class="editing-profile">
@@ -124,10 +114,16 @@ let panels = {
     }
 }
 
-function createPanel(type, mini = false, target){
+
+
+
+
+/* CREACION Y RENDERIZADO DE PANELES */
+function createPanel(type, mini, target){
     const panel = document.createElement("div");
     panel.classList.add("p")
     panel.classList.add("panel");
+
     if(!mini){
         const bkBtn = document.createElement("button");
         bkBtn.classList.add("back-btn");
@@ -136,30 +132,56 @@ function createPanel(type, mini = false, target){
     } else {
         panel.classList.add("mini-panel");
     }
-    panel.innerHTML += panels[type](type == "editing" ? target : "");
+
+    const html = target 
+                    ? panels[type](target)
+                    : panels[type]();
+
+    panel.insertAdjacentHTML("beforeend", html);
+
     return panel;
 }
 
-function goPanel(){
+
+
+
+
+/* APERTURA DE PANELES */
+function principalGoPanel(){
     document.addEventListener("click", e => {
-        const btn = e.target.closest(".edit");
+        const btn = e.target.closest(".edit-preview") || e.target.closest(".edit");
         if(!btn) return;
 
         const type = btn.dataset.type;
+        const target = btn.dataset.target;
+        const mini = btn.dataset.mini;
+
+        if(type === "editingPhoto"){
+            photoInputClick();
+            return;
+        }
 
         const modal = document.querySelector(".dinamic-modal");
-        modal.appendChild(createPanel(type));
+        const newPanel = createPanel(type, mini, target);
+        modal.appendChild(newPanel);
+        
+        const panelsF = document.querySelectorAll(".panel");
+        const lastPanel = panelsF[panelsF.length - 1];
 
         requestAnimationFrame(() => {
-            document.querySelector(".panel:last-child").classList.add("active");
-        });
-    });
+            lastPanel.classList.add("active");
+        })
+    })
 }
 
-function backPanel(){
+
+
+
+
+/* CIERRE DE PANELES */
+function closePanel(){
     const panel = document.querySelector(".p:last-child");
     if(!panel) return;
-
     panel.classList.remove("active");
     
     panel.addEventListener("transitionend", () => {
@@ -167,24 +189,44 @@ function backPanel(){
     },{once: true})
 }
 
-function backPanelBtn(){
+function backPanel(){
     document.addEventListener("click", e => {
-        const bkBtn = e.target.closest(".back-btn") || e.target.closest(".cancel-btn");
-        if(!bkBtn) return;
+        const btn = e.target.closest(".back-btn") || e.target.closest(".cancel-btn");
+        if(btn){
+            closePanel();
+            return;
+        }
 
-        backPanel();
+        const openedMiniPanel = e.target.closest(".edit") 
+        if(openedMiniPanel) return;
+
+        const miniPanel = document.querySelector(".mini-panel:last-child");
+        const div = e.target.closest(".editing-profile");
+
+        if(miniPanel && !div){
+            closePanel();
+        }
     })
 }
 
+
+
+
+
+/* CAMBIO DE FOTO DE PERFIL */
+function photoInputClick(){
+    const fileInput = document.getElementById("fileInput");
+    fileInput.click();
+}
 function changeImgProfile(){
     document.addEventListener("click", e => {
         const editBtn = e.target.closest("#fileBtn");
         if(!editBtn) return;
-        const fileInput = document.getElementById("fileInput");
-        fileInput.click()
+
+        photoInputClick();
     })
 }
-
+let currentURL = null;
 function selectProfileImg(){
     document.addEventListener("change", e => {
         const input = e.target.closest("#fileInput");
@@ -194,40 +236,33 @@ function selectProfileImg(){
         if(!file) return; 
 
         if(!file.type.startsWith("image/")){
-            alert("Esato no es una imagen, crack, chistoso, te odio. :)");
+            alert("Esto no es una imagen, crack, chistoso, te odio :)");
             return;
         }
 
         if(file.size > 2 * 1024 * 1024){
-            alert("La imagen es muy pesada. Bro, mas de 2mb, no somos la puta nasa.");
+            alert("La imagen es muy pesada. Bro, mas de 2mb?, ¿WHAT?, no somos la puta nasa🗣️.");
             return;
         }
 
-        const imageURL = URL.createObjectURL(file);
         const imgHTML = document.querySelector(".user-photo");
         if(!imgHTML) return;
-        imgHTML.src = imageURL;
+
+        if(currentURL){
+            URL.revokeObjectURL(currentURL);
+        }
+        
+        currentURL = URL.createObjectURL(file);
+
+        imgHTML.src = currentURL;
     })
 }
 
-function goMiniPanel(){
-    document.addEventListener("click", e => {
-        const btn = e.target.closest(".edit-preview");
-        if(!btn) return;
 
-        const type = btn.dataset.type;
-        const target = btn.dataset.target;
 
-        const modal = document.querySelector(".dinamic-modal");
-        const mini = type == "editing" ? true : false;
-        modal.appendChild(createPanel(type, mini, target));
 
-        requestAnimationFrame(() => {
-            document.querySelector(".panel:last-child").classList.add("active");
-        });
-    })
-}
 
+/* MOVIEMIENTO DEL SPAN EN LOS INPUTS DE EDICIÓN */
 function spanMove(){
     document.addEventListener("input", e => {
         const input = e.target.closest("#inputChange");
@@ -243,14 +278,17 @@ function spanMove(){
     })
 }
 
-function closeMiniPanel(){
-    document.addEventListener("click", e => {
-        const miniPanel = e.target.closest(".mini-panel:last-child");
-        const div = e.target.closest(".editing-profile");
-        if(miniPanel && !div){
-            backPanel();
-        }
-    })
-}
 
+
+
+
+/* LISTENERS DE FUNCIONALIDADES DE LA SECCION DE CUENTA */
+function listenersAccount(){
+            changeImgProfile();
+            selectProfileImg();
+            spanMove();
+            principalGoPanel();
+            backPanel();
+}
+/* Inicialización de listeners */
 listenersAccount();

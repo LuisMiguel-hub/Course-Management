@@ -1,5 +1,7 @@
 import "./notifications.css";
 import { deleteNotification, getNotifications, notificationsDataBase, time, updateNotifications } from "./notis-list.js";
+
+/* OBTENER NOTIFICACIONES DESDE LA BASE DE DATOS */
 let [n, d] = getNotifications();
 export let notifications = n;
 export let deletedNotifications = d;
@@ -10,6 +12,11 @@ export function setNotifications(newN, newND){
     deletedNotifications = newND;
 }
 
+
+
+
+
+/* RENDERS DEL APARTADO DE NOTIFICACIONES */
 export function SecNotificationsRender(){
     const modal = document.querySelector(".dinamic-modal");
     modal.classList.remove("modal-account");
@@ -60,18 +67,25 @@ export function notificationsRender(notis) {
                     }`
 }
 
-function searchListener(){
-    const input = document.getElementById("searchingInput");
-    if(!input) return;
 
-    let timeout;
-    
-    input.addEventListener("input", () => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            const result = getFilterNotis(input.value);
-            notificationsRender(result);
-        }, 120)
+
+
+
+/* BUSQUEDA DE NOTIFICACIONES Y SUS UTILIDADES */
+function searchListener(){
+    document.addEventListener("input", e => {
+        const input = e.target.closest("#searchingInput");
+        if(!input) return;
+  
+        let timeout;
+        
+        input.addEventListener("input", () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                const result = getFilterNotis(input.value);
+                notificationsRender(result);
+            }, 120)
+        })
     })
 }
 
@@ -128,22 +142,29 @@ function cleanSearch(){
     })
 }
 
+
+
+
+
+/* CONTADORES E INDICADORES DE NOTIFICACIONES */
 export function counter(){
     let con = 0;
 
-    if (!notifications) return 0;
+    if (!notifications.length) return 0;
 
-    notifications.forEach(n => {
-        if(!n.seen) con++
-    });
+    con = notifications.filter(n => !n.seen).length;
 
-    if (con == 0){
+   updatedCounterSpan(Number(con));
+
+    return con;
+}
+
+function updatedCounterSpan(n){
+     if (n === 0){
         document.querySelector(".notis-btn span").style.opacity = "0";
     } else {
         document.querySelector(".notis-btn span").style.opacity = "1";
     }
-
-    return con;
 }
 
 export function notisCounter(){
@@ -155,6 +176,11 @@ export function notisCounter(){
     contadorhtml.textContent = con > 10 ? "10+" : con;
 }
 
+
+
+
+
+/* BORRAR NOTIFICACIONES */
 function deleteListener(){
     document.addEventListener("click", e => {
         const btnD = e.target.closest(".delete-noti");
@@ -173,6 +199,11 @@ function deleteListener(){
     })
 }
 
+
+
+
+
+/* NOTIFICACIONES VISTAS */
 function seenListener(){
     document.addEventListener("click", e => {
         if(e.target.closest(".delete-noti")) return;
@@ -190,17 +221,11 @@ function seenListener(){
     })
 }
 
-let lready = false;
-export function listenersNotifications(){
-    if(lready) return;
-    lready = true;
-    searchListener();
-    cleanSearch();
-    deleteListener();
-    seenListener();
-}
 
-//SPAWNNN
+
+
+
+/* REAPARECEDOR DE NOTIFICACIONES */
 export function spawnNotis(){
     const now = Date.now();
     const candidates = deletedNotifications.filter(n => (now - n.deletedAt) > 300000);
@@ -234,4 +259,17 @@ export function spawnNotis(){
     notisCounter();
 }
 
-notisCounter();
+
+
+
+
+/* LISTENERS DE LA SECCION DE NOTIFICACIONES */
+let lready = false;
+export function listenersNotifications(){
+    if(lready) return;
+    lready = true;
+    searchListener();
+    cleanSearch();
+    deleteListener();
+    seenListener();
+}
