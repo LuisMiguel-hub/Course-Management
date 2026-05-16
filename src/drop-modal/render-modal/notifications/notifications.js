@@ -154,7 +154,7 @@ export function counter(){
 
     con = notifications.filter(n => !n.seen).length;
 
-   updatedCounterSpan(Number(con));
+   updatedCounterSpan(con);
 
     return con;
 }

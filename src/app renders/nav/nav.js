@@ -1,4 +1,4 @@
-import { navigate, router } from "./routes.js";
+import { navigate, router } from "../../routes.js";
 
 export function indicatorMove(link){
     const navIndicator = document.querySelector(".nav-indicator");
@@ -65,7 +65,7 @@ export function openCloseNav(nav, action){
 let startX = 0;
 let isDrawing = false;
 export function slideToggleNav(e){
-    startX = e.clientX;
+    startX = e;
     isDrawing = true;
     document.addEventListener("pointermove", slideToggleNavMove);
     document.addEventListener("pointerup", slideToggleNavEnd, {once: true});
@@ -99,3 +99,21 @@ export const observer = new ResizeObserver(() => {
     const active = document.querySelector(".principal-nav-list-a.active");
     active && indicatorMove(active);
 })
+
+
+
+
+
+
+document.addEventListener("click", showSections);
+document.addEventListener("click", e => {
+    const tnBtn = e.target.closest(".toggle-nav-btn");
+    if(!tnBtn) return;
+    toogleNav();
+})
+document.addEventListener("pointerdown", e => {
+    const nav = e.target.closest(".principal-nav");
+    if(!nav) return;
+    slideToggleNav(e.clientX);
+})
+observer.observe(document.querySelector(".principal-nav"));

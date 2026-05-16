@@ -1,4 +1,4 @@
-import { navigate } from "./routes.js";
+import { navigate } from "../../routes.js";
 
 export function closeOverlay() {
 

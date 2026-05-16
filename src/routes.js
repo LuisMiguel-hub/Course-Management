@@ -1,18 +1,28 @@
 import { openModal } from "./drop-modal/funtional-modal.js";
 import { accountRender } from "./drop-modal/render-modal/account/account.js";
-import { indicatorMove, openCloseNav } from "./nav.js";
-import { closeOverlay } from "./overlay.js";
+import { loginrender } from "./login-register/login/login.js";
+import { indicatorMove, openCloseNav } from "./app renders/nav/nav.js";
+import { closeOverlay } from "./app renders/overlay/overlay.js";
+import { dashboardRender, initDashboardSystems } from "./app renders/dashboard/dashboard.js";
 const routes = {
-    "/":  () => mostrar("dashboard"),
-    "/dashboard":  () => mostrar("dashboard"),
+    "/":  () => navigate("/dashboard"),
+    "/login": () => loginrender(),
+    "/register": () => {},
+    "/dashboard":  () => {
+        dashboardRender();
+        initDashboardSystems();
+    },
     "/all-courses": () => mostrar("all-courses"),
     "/messages":  () => mostrar("messages"),
     "/friends":  () => mostrar("friends"),
     "/schedule":  () => mostrar("schedule"),
     "/settings":  () => mostrar("settings"),
     "/directory":  () => mostrar("directory"),
-    "/account": () => {openModal("account")},
-    "/notifications": () => {openModal("notifications")},
+    "/account": () => {
+        initDashboardSystems();
+        openModal("account")
+    },
+    "/notifications": () => openModal("notifications"),
     "/404": () => mostrar("404")
 }
 
@@ -63,3 +73,10 @@ export function navigate(path){
 function mostrar(id){
     
 }
+
+
+
+
+
+
+window.addEventListener("popstate", router);

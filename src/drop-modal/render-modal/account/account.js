@@ -1,4 +1,4 @@
-import { closeOverlay } from "../../../overlay.js";
+import { closeOverlay } from "../../../app renders/overlay/overlay.js";
 import "./account.css";
 
 /*RENDERIZADO DE CUENTA */
@@ -27,11 +27,11 @@ export function accountRender() {
             <div class="principal-edit-profile-div">
                 <div class="modificate-info principal-div-profile">
                         <button class="edit-perfil-btn edit" data-type="edit" aria-label="Modificar perfil">
-                        Edit profile
+                        Profile information
                         <i class="bi bi-chevron-right"></i>
                     </button>
                     <button class="edit-personal-info-btn edit" data-type="info" aria-label="Editar información personal">
-                        Edit Personal Info
+                        Personal information
                         <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
@@ -282,6 +282,20 @@ function spanMove(){
 
 
 
+/* CERRAR SESIÓN */
+function logout(){
+    document.addEventListener("click", e => {
+        const loBtn = e.target.closest(".log-out-btn");
+        if(!loBtn) return;
+
+        confirm("¿Do you wanna Log Out?");
+    })
+}
+
+
+
+
+
 /* LISTENERS DE FUNCIONALIDADES DE LA SECCION DE CUENTA */
 function listenersAccount(){
             changeImgProfile();
@@ -289,6 +303,7 @@ function listenersAccount(){
             spanMove();
             principalGoPanel();
             backPanel();
+            logout();
 }
 /* Inicialización de listeners */
 listenersAccount();
