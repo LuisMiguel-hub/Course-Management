@@ -27,8 +27,6 @@
 
 /*Body*/
 body{
-    display: grid;
-    grid-template-columns: 15vw 1fr;
     height: 100dvh;
     min-height: 100vh;
     background-color: var(--color-one);
@@ -36,6 +34,30 @@ body{
     transition: all 0.3s ease-in-out;
 }
 
+.auth-layout{
+    background-color: red;
+    position: fixed;
+    inset: 0;
+    z-index: 22222;
+    translate: 0 -100%;
+    transition: transform 5s ease;
+}
+
+.auth-layout.show{
+    transform: translateY(100%);
+}
+
+.app-layout{
+    display: grid;
+    grid-template-columns: 15vw 1fr;
+    width: 100%;
+    height: 100%;
+    transition: transform 5s ease;
+}
+
+.app-layout.hidden{
+    transform: translateY(100%);    
+}
 
 /*Dinamic drop modal*/
 .dinamic-modal{
@@ -196,6 +218,7 @@ a:focus{
     flex-direction: column;
     background-color: var(--color-five);
     border-radius: 15px;
+    height: 100%;
 }
 
 
@@ -284,7 +307,7 @@ button, a, div {
 
 /*Responsive*/
 @media (max-width: 425px) {
-    body{
+    .app-layout{
         grid-template-columns: 1fr;
     }
     .principal-nav{

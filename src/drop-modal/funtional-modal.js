@@ -6,7 +6,8 @@ document.addEventListener("click", e => {
     const btn = e.target.closest(("[data-drop-modal]"));
     if(!btn) return;
     
-    navigate("/" + btn.dataset.dropModal);
+    /* navigate("/" + btn.dataset.dropModal); */
+    navigate(btn.dataset.dropModal);
 });
 
 export function openModal(content) {

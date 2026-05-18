@@ -19,5 +19,14 @@ document.addEventListener("click", e => {
     const overlay = e.target.closest(".overlay") || e.target.closest(".close-modal-account");
     if(!overlay) return;
 
-    navigate("/");
+    const nav = document.querySelector(".principal-nav");
+
+    
+    if(nav.classList.contains("toggle-nav")){
+        navigate("", "pop");
+    }
+
+    closeOverlay();
+
+    /* navigate("/"); */
 })
