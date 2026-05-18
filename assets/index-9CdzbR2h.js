@@ -1,4 +1,4 @@
-(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();function e(){let e=document.querySelector(`.overlay`),t=document.querySelector(`.dinamic-modal`),n=document.querySelector(`.principal-nav`);e.classList.add(`hidden`),t.classList.remove(`dinamic-modal-visible`),n.classList.add(`toggle-nav`),setTimeout(()=>{t.innerHTML=``},300)}document.addEventListener(`click`,e=>{(e.target.closest(`.overlay`)||e.target.closest(`.close-modal-account`))&&W(`/`)});function t(){let e=document.querySelector(`.dinamic-modal`);e.classList.remove(`notis-modal`),e.innerHTML=`
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();function e(){let e=document.querySelector(`.overlay`),t=document.querySelector(`.dinamic-modal`),n=document.querySelector(`.principal-nav`);e.classList.add(`hidden`),t.classList.remove(`dinamic-modal-visible`),n.classList.add(`toggle-nav`),setTimeout(()=>{t.innerHTML=``},300)}document.addEventListener(`click`,t=>{(t.target.closest(`.overlay`)||t.target.closest(`.close-modal-account`))&&(document.querySelector(`.principal-nav`).classList.contains(`toggle-nav`)&&W(``,`pop`),e())});function t(){let e=document.querySelector(`.dinamic-modal`);e.classList.remove(`notis-modal`),e.innerHTML=`
         <section class="sect-account">
             <h2>Ł Courses</h2>
             <button class="close-modal-account" aria-label="Cerrar Panel De  Perfil de  cuenta">
@@ -108,7 +108,7 @@
                 </div>
             </div>
         </section> 
-    `,I(),M(),P(),D(C)}function D(e){let t=document.querySelector(`.notis-content`);t&&(t.innerHTML=`${e.map(e=>`<div class="notification ${e.seen?`seen-noti`:``}" id="n-${e.id}">
+    `,L(),M(),F(),D(C)}function D(e){let t=document.querySelector(`.notis-content`);t&&(t.innerHTML=`${e.map(e=>`<div class="notification ${e.seen?`seen-noti`:``}" id="n-${e.id}">
                                         <img class="noti-img" src="${e.img}" alt="${e.imgalt}">
                                         <div class="noti-text">
                                             <h3>${e.type}</h3>
@@ -116,87 +116,4 @@
                                         </div>
                                         <span class="date-noti">${e.time}</span>
                                         <button class="delete-noti" data-id="${e.id}" aria-label="Borrar Notificción"><i class="bi bi-trash3-fill"></i></button>
-                                    </div>`).join(``)}`)}function O(){document.addEventListener(`input`,e=>{let t=e.target.closest(`#searchingInput`);if(!t)return;let n;t.addEventListener(`input`,()=>{clearTimeout(n),n=setTimeout(()=>{D(ne(t.value))},120)})})}function k(e){return e.toLowerCase().normalize(`NFD`).replace(/[\u0300-\u036f]/g,``).replace(/\s+/g,``)}function A(e,t){e=k(e),t=k(t);let n=0;e.includes(t)&&(n+=3);let r=0;for(let n of e)n===t[r]&&r++;n+=r/t.length*3;for(let r of t)e.includes(r)&&(n+=.5);return n}function ne(e){return k(e)?C.map(t=>({...t,score:A(t.message,e)})).filter(e=>e.score>2).sort((e,t)=>t.score-e.score):C}function re(){let e=document.querySelector(`.clean-search-btn`);e&&e.addEventListener(`click`,()=>{let e=document.getElementById(`searchingInput`);e&&(e.value=``,e.dispatchEvent(new Event(`input`)))})}function j(){let e=0;return C.length?(e=C.filter(e=>!e.seen).length,ie(e),e):0}function ie(e){e===0?document.querySelector(`.notis-btn span`).style.opacity=`0`:document.querySelector(`.notis-btn span`).style.opacity=`1`}function M(){let e=document.querySelector(`.notis-counter`);if(!e)return;let t=j();e.textContent=t>10?`10+`:t}function ae(){document.addEventListener(`click`,e=>{let t=e.target.closest(`.delete-noti`);if(!t)return;let n=document.getElementById(`n-${t.dataset.id}`);n.classList.add(`noti-borrada`);let r=ee(Number(t.dataset.id));r&&(C=r),M(),n.addEventListener(`transitionend`,()=>{n.remove()},{once:!0})})}function N(){document.addEventListener(`click`,e=>{if(e.target.closest(`.delete-noti`))return;let t=e.target.closest(`.notification`);if(!t)return;t.classList.add(`seen-noti`);let n=Number(t.id.replace(`n-`,``)),r=C.find(e=>e.id===n);r&&(r.seen=!0),b(C)})}function P(){let e=Date.now(),t=w.filter(t=>e-t.deletedAt>3e5);if(!t.length){D(C);return}let n=Math.min(Math.floor(Math.random()*10)+1,t.length),r=[...t].sort(()=>Math.random()-.5).slice(0,n);r.forEach(e=>{e.seen=!1,e.time=v();let{deletedAt:t,...n}=e;C.unshift(n)}),w=w.filter(e=>!r.some(t=>t.id==e.id)),D(C),b(C,w),M()}var F=!1;function I(){F||(F=!0,O(),re(),ae(),N())}document.addEventListener(`click`,e=>{let t=e.target.closest(`[data-drop-modal]`);t&&W(`/`+t.dataset.dropModal)});function L(e){let n=document.querySelector(`.dinamic-modal`);switch(n.classList.add(`dinamic-modal-visible`),document.querySelector(`.overlay`).classList.remove(`hidden`),e){case`notifications`:n.classList.remove(`account-modal`),n.classList.add(`notis-modal`),E();break;case`account`:n.classList.remove(`notis-modal`),n.classList.add(`account-modal`),t();break}}function R(){document.body.innerHTML=`
-        <h1>xd viejo</h1>
-    `}function z(){let e=document.querySelector(`#app`);e&&(e.innerHTML=`Dashboard`)}var B=!1;function V(){B||(B=!0,j(),setInterval(()=>{j()},1e4),setInterval(()=>{P()},12e4))}var H={"/":()=>W(`/dashboard`),"/login":()=>R(),"/register":()=>{},"/dashboard":()=>{z(),V()},"/all-courses":()=>void 0,"/messages":()=>void 0,"/friends":()=>void 0,"/schedule":()=>void 0,"/settings":()=>void 0,"/directory":()=>void 0,"/account":()=>{V(),L(`account`)},"/notifications":()=>L(`notifications`),"/404":()=>void 0};function U(){let t=`/Course-Management/`,n=window.location.pathname;t!==`/`&&(n=n.replace(t,``)),n=n.replace(/\/$/,``),n||(n=`/dashboard`,history.replaceState({},``,t+`dashboard`)),n.startsWith(`/`)||(n=`/`+n),[`/account`,`/notifications`].includes(n)||e();let r=H[n];if(!r){history.replaceState({},``,t+`404`),r=H[`/404`],r();return}r();let i=document.querySelector(`.principal-nav-list-a[href='${n}']`);i&&G(i)}function W(e){history.pushState({},``,`/Course-Management/`+e.replace(`/`,``)),U()}window.addEventListener(`popstate`,U);function G(e){let t=document.querySelector(`.nav-indicator`);!e||!t||(t.style.height=`${e.offsetHeight-10}px`,t.style.top=`${e.offsetTop+5}px`,K(e))}function K(e){document.querySelectorAll(`.principal-nav-list-a`).forEach(e=>{e.classList.remove(`active`);let t=e.querySelector(`i`);t&&[...t.classList].forEach(e=>{e.endsWith(`-fill`)&&t.classList.replace(e,e.replace(`-fill`,``))})}),e.classList.add(`active`);let t=e.querySelector(`i`);if(!t)return;let n=[...t.classList].find(e=>e.startsWith(`bi-`)&&!e.endsWith(`-fill`));t.classList.replace(n,n+`-fill`)}function q(e){let t=e.target.closest(`.principal-nav-list-a`);t&&(e.preventDefault(),W(t.pathname))}function J(){let e=document.querySelector(`.principal-nav`);e&&oe(e,e.classList.contains(`toggle-nav`)?`remove`:`add`)}function oe(e,t){document.querySelector(`.overlay`).classList[t](`hidden`),e.classList[t](`toggle-nav`)}var Y=0,X=!1;function se(e){Y=e,X=!0,document.addEventListener(`pointermove`,Z),document.addEventListener(`pointerup`,ce,{once:!0})}function Z(e){if(!X)return;let t=e.clientX-Y,n=Math.min(t,0);document.querySelector(`.principal-nav`).style.transition=`none`,document.querySelector(`.principal-nav`).style.transform=`translateX(${n}px)`}function ce(e){document.querySelector(`.principal-nav`).style.transition=``,document.removeEventListener(`pointermove`,Z),e.clientX-Y<-90?(document.querySelector(`.principal-nav`).style.transform=``,J()):document.querySelector(`.principal-nav`).style.transform=``}var le=new ResizeObserver(()=>{let e=document.querySelector(`.principal-nav-list-a.active`);e&&G(e)});document.addEventListener(`click`,q),document.addEventListener(`click`,e=>{e.target.closest(`.toggle-nav-btn`)&&J()}),document.addEventListener(`pointerdown`,e=>{e.target.closest(`.principal-nav`)&&se(e.clientX)}),le.observe(document.querySelector(`.principal-nav`));var Q=3;function $(){let e=Number(localStorage.getItem(`appVersion`)).toFixed()||1;e<Q&&(ue(e),localStorage.setItem(`appVersion`,Q))}function ue(e){for(;e<Q;)de[e]?.(),e++}var de={1:fe,2:pe};function fe(){T(y,[]),b(C,[])}function pe(){localStorage.removeItem(`Notifications`)}function me(){document.body.innerHTML=`
-    <div class="overlay hidden"></div>
-    <div class="dinamic-modal"></div>
-    <nav class="principal-nav toggle-nav">
-        <div class="nav-indicator"></div>
-        <div class="principal-nav-up">  
-            <div class="nav-header">
-                <button class="toggle-nav-btn" aria-label="Cerrar Nav">
-                    <i class="bi bi-layout-sidebar"></i>
-                </button>
-                <a href=""  class="logo-nav">
-                    <img src="src/assets/logo.png" alt="Page Logo">
-                </a>
-            </div>
-            <ul class="principal-nav-list">
-                <li class="principal-nav-list-item">
-                    <a class="principal-nav-list-a" href="/dashboard">
-                        <i class="bi bi-grid"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="principal-nav-list-item">
-                    <a class="principal-nav-list-a" href="/all-courses">
-                        <i class="bi bi-folder"></i>
-                        <span>All Courses</span>
-                    </a>
-                </li>
-                <li class="principal-nav-list-item">
-                    <a class="principal-nav-list-a" href="/messages">
-                        <i class="bi bi-chat-dots"></i>
-                        <span>Messages</span>
-                    </a>
-                </li>
-                <li class="principal-nav-list-item">
-                    <a class="principal-nav-list-a" href="/friends">
-                        <i class="bi bi-people"></i>
-                        <span>Friends</span>
-                    </a>
-                </li>
-                <li class="principal-nav-list-item">
-                    <a class="principal-nav-list-a" href="/schedule">
-                        <i class="bi bi-file-text" style="transform: rotateZ(180deg) rotateY(180deg);"></i>
-                        <span>Schedule</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <ul class="principal-nav-list">
-            <li class="principal-nav-list-item">
-                <a class="principal-nav-list-a" href="/settings">
-                    <i class="bi bi-gear"></i>
-                    <span>Settings</span>
-                </a>
-            </li>
-            <li class="principal-nav-list-item">
-                <a class="principal-nav-list-a" href="/directory">
-                    <i class="bi bi-info-square"></i>
-                    <span>Directory</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <div class="layout">
-        <header class="header nav-active">
-            <div class="header-menu">
-                <button class="toggle-nav-btn" aria-label="Abrir Nav">
-                    <i class="bi bi-layout-sidebar-inset"></i>
-                </button>
-                <h1>Ł Courses</h1>
-                </div>
-            <div class="header-actions">
-                <button class="notis-btn" id="notis-btn" data-drop-modal="notifications" aria-label="Abrir notificaciones">
-                    <i class="bi bi-bell-fill"></i>
-                    <span></span>
-                </button>
-                <button class="account-btn" data-drop-modal="account" aria-label="Abrir cuenta">
-                    <img src="https://imgs.search.brave.com/spV2SnKYOCyqt2xeo4e77XWcvByGQ9uSs7geWDeEKxw/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZ2VuaXVzLmNv/bS8yNDllYjc2ZDA0/ZTljNWY3N2YxMGU3/YmMxYjNlOTA0ZS4x/MDAweDEwMDB4MS5w/bmc" alt="">
-                </button>
-            </div>
-        </header>
-        <main id="app"></main>
-    </div>`}function he(){me(),U(),$()}he();
+                                    </div>`).join(``)}`)}function O(){document.addEventListener(`input`,e=>{let t=e.target.closest(`#searchingInput`);if(!t)return;let n;t.addEventListener(`input`,()=>{clearTimeout(n),n=setTimeout(()=>{D(ne(t.value))},120)})})}function k(e){return e.toLowerCase().normalize(`NFD`).replace(/[\u0300-\u036f]/g,``).replace(/\s+/g,``)}function A(e,t){e=k(e),t=k(t);let n=0;e.includes(t)&&(n+=3);let r=0;for(let n of e)n===t[r]&&r++;n+=r/t.length*3;for(let r of t)e.includes(r)&&(n+=.5);return n}function ne(e){return k(e)?C.map(t=>({...t,score:A(t.message,e)})).filter(e=>e.score>2).sort((e,t)=>t.score-e.score):C}function re(){let e=document.querySelector(`.clean-search-btn`);e&&e.addEventListener(`click`,()=>{let e=document.getElementById(`searchingInput`);e&&(e.value=``,e.dispatchEvent(new Event(`input`)))})}function j(){let e=0;return C.length?(e=C.filter(e=>!e.seen).length,ie(e),e):0}function ie(e){e===0?document.querySelector(`.notis-btn span`).style.opacity=`0`:document.querySelector(`.notis-btn span`).style.opacity=`1`}function M(){let e=document.querySelector(`.notis-counter`);if(!e)return;let t=j();e.textContent=t>10?`10+`:t}function N(){document.addEventListener(`click`,e=>{let t=e.target.closest(`.delete-noti`);if(!t)return;let n=document.getElementById(`n-${t.dataset.id}`);n.classList.add(`noti-borrada`);let r=ee(Number(t.dataset.id));r&&(C=r),M(),n.addEventListener(`transitionend`,()=>{n.remove()},{once:!0})})}function P(){document.addEventListener(`click`,e=>{if(e.target.closest(`.delete-noti`))return;let t=e.target.closest(`.notification`);if(!t)return;t.classList.add(`seen-noti`);let n=Number(t.id.replace(`n-`,``)),r=C.find(e=>e.id===n);r&&(r.seen=!0),b(C)})}function F(){let e=Date.now(),t=w.filter(t=>e-t.deletedAt>3e5);if(!t.length){D(C);return}let n=Math.min(Math.floor(Math.random()*10)+1,t.length),r=[...t].sort(()=>Math.random()-.5).slice(0,n);r.forEach(e=>{e.seen=!1,e.time=v();let{deletedAt:t,...n}=e;C.unshift(n)}),w=w.filter(e=>!r.some(t=>t.id==e.id)),D(C),b(C,w),M()}var I=!1;function L(){I||(I=!0,O(),re(),N(),P())}document.addEventListener(`click`,e=>{let t=e.target.closest(`[data-drop-modal]`);t&&W(t.dataset.dropModal)});function R(e){let n=document.querySelector(`.dinamic-modal`);switch(n.classList.add(`dinamic-modal-visible`),document.querySelector(`.overlay`).classList.remove(`hidden`),e){case`notifications`:n.classList.remove(`account-modal`),n.classList.add(`notis-modal`),E();break;case`account`:n.classList.remove(`notis-modal`),n.classList.add(`account-modal`),t();break}}function z(){let e=document.querySelector(`#app`);e&&(e.innerHTML=`<section class="dashboard-section"><h1>Dashboard</h1></section>`)}var B=!1;function V(){B||(B=!0,j(),setInterval(()=>{j()},1e4),setInterval(()=>{F()},12e4))}var H={"/":()=>W(`/dashboard`),login:()=>void 0,register:()=>{},dashboard:()=>{z()},"all-courses":()=>void 0,messages:()=>void 0,friends:()=>void 0,schedule:()=>void 0,settings:()=>void 0,directory:()=>void 0,account:()=>{R(`account`)},notifications:()=>{R(`notifications`)},404:()=>void 0};function U(){let t=`/Course-Management/`,n=window.location.pathname;t!==`/`&&(n=n.replace(t,``)),n=n.replace(/\/$/,``),n||(n=`/dashboard`,history.replaceState({},``,t+`dashboard`)),n.startsWith(`/`)||(n=`/`+n);let r=n.split(`/`).filter(Boolean),i=[`account`,`notifications`];if(r.some(e=>{i.includes(e)})&&e(),r.some(e=>!H[e])){history.replaceState({},``,t+`404`);let e=H[404];e();return}r.forEach(e=>{H[e]()});let a=document.querySelector(`.principal-nav-list-a[href='${`/`+r[0]}']`);a&&G(a)}function W(e,t=`push`){let n=`/Course-Management/`;if(e.startsWith(`/`)){history.pushState({},``,n+e.slice(1)),U();return}let r=window.location.pathname.replace(n,``).split(`/`).filter(Boolean);t===`pop`?r.pop():r.push(e.replace(`/`,``));let i=n+r.join(`/`);console.log(i),history.pushState({},``,i),U()}window.addEventListener(`popstate`,U);function G(e){let t=document.querySelector(`.nav-indicator`);!e||!t||(t.style.height=`${e.offsetHeight-10}px`,t.style.top=`${e.offsetTop+5}px`,K(e))}function K(e){document.querySelectorAll(`.principal-nav-list-a`).forEach(e=>{e.classList.remove(`active`);let t=e.querySelector(`i`);t&&[...t.classList].forEach(e=>{e.endsWith(`-fill`)&&t.classList.replace(e,e.replace(`-fill`,``))})}),e.classList.add(`active`);let t=e.querySelector(`i`);if(!t)return;let n=[...t.classList].find(e=>e.startsWith(`bi-`)&&!e.endsWith(`-fill`));t.classList.replace(n,n+`-fill`)}function q(e){let t=e.target.closest(`.principal-nav-list-a`);t&&(e.preventDefault(),W(t.pathname))}function J(){let e=document.querySelector(`.principal-nav`);e&&ae(e,e.classList.contains(`toggle-nav`)?`remove`:`add`)}function ae(e,t){document.querySelector(`.overlay`).classList[t](`hidden`),e.classList[t](`toggle-nav`)}var Y=0,X=!1;function oe(e){Y=e,X=!0,document.addEventListener(`pointermove`,Z),document.addEventListener(`pointerup`,se,{once:!0})}function Z(e){if(!X)return;let t=e.clientX-Y,n=Math.min(t,0);document.querySelector(`.principal-nav`).style.transition=`none`,document.querySelector(`.principal-nav`).style.transform=`translateX(${n}px)`}function se(e){document.querySelector(`.principal-nav`).style.transition=``,document.removeEventListener(`pointermove`,Z),e.clientX-Y<-90?(document.querySelector(`.principal-nav`).style.transform=``,J()):document.querySelector(`.principal-nav`).style.transform=``}var ce=new ResizeObserver(()=>{let e=document.querySelector(`.principal-nav-list-a.active`);e&&G(e)});document.addEventListener(`click`,q),document.addEventListener(`click`,e=>{e.target.closest(`.toggle-nav-btn`)&&J()}),document.addEventListener(`pointerdown`,e=>{e.target.closest(`.principal-nav`)&&oe(e.clientX)}),ce.observe(document.querySelector(`.principal-nav`));var Q=3;function le(){let e=Number(localStorage.getItem(`appVersion`)).toFixed()||1;e<Q&&($(e),localStorage.setItem(`appVersion`,Q))}function $(e){for(;e<Q;)ue[e]?.(),e++}var ue={1:de,2:fe};function de(){T(y,[]),b(C,[])}function fe(){localStorage.removeItem(`Notifications`)}function pe(){U(),le(),V()}pe();
