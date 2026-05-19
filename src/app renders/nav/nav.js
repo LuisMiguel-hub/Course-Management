@@ -1,4 +1,5 @@
 import { navigate, router } from "../../routes.js";
+import { closeOverlay, openOverlay, updateOverlay } from "../overlay/overlay.js";
 
 export function indicatorMove(link){
     const navIndicator = document.querySelector(".nav-indicator");
@@ -46,16 +47,15 @@ export function showSections(e) {
 
 
 
-export function toogleNav(){
+
+export function navOpened(){
     const nav = document.querySelector(".principal-nav");
-    if(!nav) return;
-    const action = nav.classList.contains("toggle-nav") ? "remove" : "add";
-    openCloseNav(nav, action)
+    nav.classList.remove("nav-closed");
 }
 
-export function openCloseNav(nav, action){
-    document.querySelector(".overlay").classList[action]("hidden");
-    nav.classList[action]("toggle-nav");
+export function navClosed(){
+    const nav = document.querySelector(".principal-nav");
+    nav.classList.add("nav-closed");
 }
 
 
@@ -85,7 +85,7 @@ function slideToggleNavEnd(e){
     const diff = e.clientX - startX;
     if(diff < -90){
         document.querySelector(".principal-nav").style.transform = "";
-        toogleNav();
+        toggleNav();
     } else {
         document.querySelector(".principal-nav").style.transform = "";
     }
@@ -102,6 +102,15 @@ export const observer = new ResizeObserver(() => {
 
 
 
+function toggleNav(){
+    const nav = document.querySelector(".principal-nav");
+    if(nav.classList.contains("nav-closed")){
+        navOpened();
+    } else {
+        navClosed();
+    }
+    updateOverlay()
+}
 
 
 
@@ -109,7 +118,7 @@ document.addEventListener("click", showSections);
 document.addEventListener("click", e => {
     const tnBtn = e.target.closest(".toggle-nav-btn");
     if(!tnBtn) return;
-    toogleNav();
+    toggleNav();
 })
 document.addEventListener("pointerdown", e => {
     const nav = e.target.closest(".principal-nav");

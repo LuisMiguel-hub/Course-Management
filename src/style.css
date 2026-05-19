@@ -207,10 +207,6 @@ a:focus{
     font-weight: 700;
 }
 
-.toggle-nav{
-    transform: translateX(-120%);
-}
-
 
 /*Layout*/
 .layout{
@@ -317,6 +313,9 @@ button, a, div {
         height: calc(100% - 20px);
         border-radius: 13px;
         left: 10px;
+    }
+    .nav-closed{
+        transform: translateX(-120%);
     }
     .logo-nav{
         font-size: 17px;

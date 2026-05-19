@@ -1,8 +1,8 @@
-import { openModal } from "./drop-modal/funtional-modal.js";
+import { closeModal, openModal } from "./drop-modal/funtional-modal.js";
 import { accountRender } from "./drop-modal/render-modal/account/account.js";
 import { loginrender } from "./login-register/login/login.js";
-import { indicatorMove, openCloseNav } from "./app renders/nav/nav.js";
-import { closeOverlay } from "./app renders/overlay/overlay.js";
+import { indicatorMove } from "./app renders/nav/nav.js";
+import { closeOverlay, isNavOpen } from "./app renders/overlay/overlay.js";
 import { dashboardExist, dashboardRender, initDashboardSystems } from "./app renders/dashboard/dashboard.js";
 
 
@@ -70,12 +70,11 @@ export function router() {
 
     const overlayRoutes = ["account", "notifications"];
 
-    const hasOverlay = segments.some(seg => {
-        overlayRoutes.includes(seg);
-    })
+    const hasOverlay = segments.some(seg => overlayRoutes.includes(seg))
 
-    if(hasOverlay){
-        closeOverlay();
+    if(!hasOverlay){
+        closeModal();
+        isNavOpen();
     }
 
     const invalid = segments.some(seg => !routes[seg])
@@ -104,7 +103,7 @@ export function router() {
 export function navigate(path, mode = "push"){
     const base = import.meta.env.BASE_URL;
 
-    if(path.startsWith("/")){
+    if(path?.startsWith("/")){
         history.pushState({}, "", base + path.slice(1))
         router();
         return;
@@ -127,7 +126,6 @@ export function navigate(path, mode = "push"){
     history.pushState({}, "", newPath);
 
     router()
-
 }
 
 
@@ -137,7 +135,6 @@ export function navigate(path, mode = "push"){
 function mostrar(id){
     
 }
-
 
 
 
