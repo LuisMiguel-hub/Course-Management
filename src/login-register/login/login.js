@@ -1,5 +1,3 @@
-import { navigate } from "../../routes.js";
-
-export function loginrender(){
-    
+export function loginRender(){
+    console.log("login papu")
 }

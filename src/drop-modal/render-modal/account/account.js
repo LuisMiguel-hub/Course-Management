@@ -1,8 +1,12 @@
 import { closeOverlay } from "../../../app renders/overlay/overlay.js";
+import { navigate } from "../../../routes.js";
+import { getActualUserID, getAuthUser } from "../../../users/users.js";
 import "./account.css";
 
 /*RENDERIZADO DE CUENTA */
 export function accountRender() {
+    const user = getAuthUser(getActualUserID());
+
     const modal = document.querySelector(".dinamic-modal");
     modal.classList.remove("notis-modal");
     modal.innerHTML = `
@@ -20,8 +24,8 @@ export function accountRender() {
                     </button>
                 </div>
                 <div class="name-username-profile">
-                    <h2 class="profile-name">Luis Miguel</h2>
-                    <span class="profile-username">Papu</span>
+                    <h2 class="profile-name">${user.name}</h2>
+                    <span class="profile-username">${user.username}</span>
                 </div>
             </div>
             <div class="principal-edit-profile-div">
@@ -288,7 +292,11 @@ function logout(){
         const loBtn = e.target.closest(".log-out-btn");
         if(!loBtn) return;
 
-        confirm("¿Do you wanna Log Out?");
+        const reallyGo = confirm("¿Do you wanna Log Out?");
+
+        if(reallyGo){
+            navigate("/login");
+        }
     })
 }
 

@@ -41,6 +41,7 @@ export function showSections(e) {
     if (!link) return;
     e.preventDefault();
     navigate(link.pathname);
+    navOpened();
 }
 
 

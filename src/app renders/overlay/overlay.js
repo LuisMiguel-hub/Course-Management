@@ -17,6 +17,8 @@ export function updateOverlay(){
 
     overlay.classList.toggle("hidden")
 }
+    
+
 
 export function isNavOpen(){
     const overlay = document.querySelector(".overlay");

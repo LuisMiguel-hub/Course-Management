@@ -1,9 +1,10 @@
 import { closeModal, openModal } from "./drop-modal/funtional-modal.js";
 import { accountRender } from "./drop-modal/render-modal/account/account.js";
-import { loginrender } from "./login-register/login/login.js";
+import { loginRender } from "./login-register/login/login.js";
 import { indicatorMove } from "./app renders/nav/nav.js";
 import { closeOverlay, isNavOpen } from "./app renders/overlay/overlay.js";
 import { dashboardExist, dashboardRender, initDashboardSystems } from "./app renders/dashboard/dashboard.js";
+import { verifyAuth } from "./users/users.js";
 
 
 
@@ -12,7 +13,7 @@ import { dashboardExist, dashboardRender, initDashboardSystems } from "./app ren
 const routes = {
     "/":  () => navigate("/dashboard"),
 
-    "login": () => loginrender(),
+    "login": () => loginRender(),
 
     "register": () => {},
 
@@ -48,6 +49,9 @@ const routes = {
 
 
 export function router() {
+
+    if(!verifyAuth()) return;
+
     const base = import.meta.env.BASE_URL;
     let currentPath = window.location.pathname;
 
@@ -68,8 +72,13 @@ export function router() {
         .split("/")
         .filter(Boolean)
 
-    const overlayRoutes = ["account", "notifications"];
+    const authRoutes = ["login", "register"];
+    const inAuth = segments.some(seg => authRoutes.includes(seg));
 
+    document.body.className = inAuth ? "auth-mode" : "app-mode";
+
+
+    const overlayRoutes = ["account", "notifications"];
     const hasOverlay = segments.some(seg => overlayRoutes.includes(seg))
 
     if(!hasOverlay){
@@ -119,9 +128,7 @@ export function navigate(path, mode = "push"){
         : actPath.push(path.replace("/", ""));
 
 
-    const newPath = base + actPath.join("/")
-
-    console.log(newPath)
+    const newPath = base + actPath.join("/");
 
     history.pushState({}, "", newPath);
 

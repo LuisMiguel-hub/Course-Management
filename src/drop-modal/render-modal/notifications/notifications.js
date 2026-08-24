@@ -1,3 +1,4 @@
+import { getActualUserID, getAuthUser, updateAuthUser } from "../../../users/users.js";
 import "./notifications.css";
 import { deleteNotification, getNotifications, notificationsDataBase, time, updateNotifications } from "./notis-list.js";
 
@@ -5,14 +6,6 @@ import { deleteNotification, getNotifications, notificationsDataBase, time, upda
 let [n, d] = getNotifications();
 export let notifications = n;
 export let deletedNotifications = d;
-
-
-export function setNotifications(newN, newND){
-    notifications = newN;
-    deletedNotifications = newND;
-}
-
-
 
 
 
@@ -42,7 +35,6 @@ export function SecNotificationsRender(){
             </div>
         </section> 
     `;
-    listenersNotifications();
     notisCounter();
     spawnNotis();
     notificationsRender(notifications);
@@ -52,8 +44,10 @@ export function notificationsRender(notis) {
     const notiBox = document.querySelector(".notis-content");
     if(!notiBox) return;
 
+    const notisUser = getAuthUser(getActualUserID()).notifications;
+
     notiBox.innerHTML = `${
-                        notis.map(n => {
+                        notisUser.map(n => {
                             return(`<div class="notification ${n.seen ? "seen-noti" : ""}" id="n-${n.id}">
                                         <img class="noti-img" src="${n.img}" alt="${n.imgalt}">
                                         <div class="noti-text">
@@ -119,8 +113,9 @@ function scoreMatch(text, query){
 }
 
 function getFilterNotis(query) {
-    if (!normalize(query)) return notifications;
-    return notifications.map(n => ({
+    const notisUser = getAuthUser(getActualUserID()).notifications;
+    if (!normalize(query)) return notisUser;
+    return notisUser.map(n => ({
                 ...n,
                 score: scoreMatch(n.message, query)
             }))
@@ -148,11 +143,13 @@ function cleanSearch(){
 
 /* CONTADORES E INDICADORES DE NOTIFICACIONES */
 export function counter(){
+    const notisUser = getAuthUser(getActualUserID()).notifications;
+
     let con = 0;
 
-    if (!notifications.length) return 0;
+    if (!notisUser.length) return 0;
 
-    con = notifications.filter(n => !n.seen).length;
+    con = notisUser.filter(n => !n.seen).length;
 
    updatedCounterSpan(con);
 
@@ -206,6 +203,8 @@ function deleteListener(){
 /* NOTIFICACIONES VISTAS */
 function seenListener(){
     document.addEventListener("click", e => {
+        const notisUser = getAuthUser(getActualUserID()).notifications;
+
         if(e.target.closest(".delete-noti")) return;
 
         const noti = e.target.closest(".notification");
@@ -214,10 +213,11 @@ function seenListener(){
         noti.classList.add("seen-noti");
 
         const id = Number(noti.id.replace("n-", ""));
-        const found = notifications.find(n => n.id === id);
+        const found = notisUser.find(n => n.id === id);
         if(found) found.seen = true;
 
         updateNotifications(notifications);
+        updateAuthUser(getAuthUser(), {notifications: notisUser})
     })
 }
 
@@ -273,3 +273,4 @@ export function listenersNotifications(){
     deleteListener();
     seenListener();
 }
+listenersNotifications();
